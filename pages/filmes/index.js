@@ -1,7 +1,8 @@
 import React ,{ useEffect, useState }  from 'react'
 import Pagina from '../../components/pagina'
 import apiFilmes from '../../services/apiFilmes'
-import { Button, Card, Col, Row } from 'react-bootstrap'
+import { Card, Col, Row } from 'react-bootstrap'
+import Link from 'next/link'
 
 const index = () => {
 
@@ -28,7 +29,7 @@ const index = () => {
             <Card.Title>{item.title}</Card.Title>
             <Card.Text>Lançamento: {item.release_date}</Card.Text>
             <Card.Text>Nota: {item.vote_average}</Card.Text>
-            <Button variant='primary'>Detalhes</Button>
+            <Link href={'/filmes/' +item.id}className='btn btn-danger'>Detalhes</Link>
           </Card.Body>
         </Card>
         </Col>
@@ -41,3 +42,11 @@ const index = () => {
 }
 
 export default index
+
+export async function getServerSideProps(context){
+  const resultado=await apiFilmes.get("/movie/popular")
+  const filmes = resultado.data.results
+  return{
+    props:{filmes},
+  }
+}
