@@ -1,11 +1,17 @@
 import React from 'react'
+import { Card, Col } from 'react-bootstrap'
 import Pagina from '../../components/pagina'
 import apiFilmes from '../../services/apiFilmes'
 
 const Detalhes = ({filme}) => {
   return (
     <Pagina titulo={filme.title}>
-    <div>Detalhes</div>
+    
+    <Row>
+        <Col >
+        <Card className=''></Card>
+        </Col>
+    </Row>
     </Pagina>
   )
 }
