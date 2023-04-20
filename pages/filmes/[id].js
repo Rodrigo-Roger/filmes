@@ -3,7 +3,7 @@ import { Card, Col, Row } from 'react-bootstrap'
 import Pagina from '../../components/pagina'
 import apiFilmes from '../../services/apiFilmes'
 
-const Detalhes = ({filme}) => {
+const Detalhes = ({filme, atores}) => {
   return (
     <Pagina titulo={filme.title}>
     
@@ -21,12 +21,21 @@ const Detalhes = ({filme}) => {
               
               {filme.genres.map(item => (
             <li>{item.name}</li>
-        ))}
-              
+        ))}             
             </ul>
           </div>
         </Col>
     </Row>
+
+    <h2>Atores</h2>
+    <Row>
+    {atores.map(item => (
+            <Col md={2}>
+            <Card.Img variant='top' src={'https://image.tmdb.org/t/p/w500'+item.profile_path}></Card.Img>
+            </Col>
+        ))}   
+    </Row>
+
     </Pagina>
   )
 }
@@ -40,7 +49,10 @@ export async function getServerSideProps(context){
 
     const resultado=await apiFilmes.get("/movie/"+id+'?language=pt-BR')
     const filme = resultado.data
+
+    const resAtores=await apiFilmes.get("/movie/"+id+'/credits?language=pt-BR')
+    const atores = resAtores.data.cast
     return{
-      props:{filme},
+      props:{filme, atores}
     }
   }
